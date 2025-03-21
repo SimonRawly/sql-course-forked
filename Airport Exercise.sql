@@ -33,7 +33,24 @@ FROM airports a;
 
 -- How many airports are in the airports table?
 
+
+SELECT COUNT(*)
+FROM airports
+
+
+
+SELECT TYPE
+		, COUNT(*) AS [NUMBER OF AIRPORTS]
+
+FROM airports
+
+GROUP BY TYPE
+
+ORDER BY [NUMBER OF AIRPORTS] DESC
+
 -- How many frequencies are in the airport_frequencies table?
+
+
 
 -- How many airports of each type?
 
@@ -44,6 +61,16 @@ Do a data quality check on the airports_frequencies table
 Are there any orphan rows (frequencies without a matching airports)?
 You can do this is several ways: LEFT JOIN, NOT IN, NOT EXISTS,...
 */
+
+SELECT COUNT(*) 
+
+FROM airport_frequencies af
+
+LEFT JOIN airports a
+	ON A.IDENT = AF.airport_ident
+
+WHERE A.IDENT IS NULL
+
 -- left join approach
 
 -- NOT EXISTS approach	
