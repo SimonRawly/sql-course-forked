@@ -113,6 +113,6 @@ SELECT
 FROM
 	FinalTally
 WHERE
-	N <= 1000
+	N <= 10000
 ORDER BY
 	N;

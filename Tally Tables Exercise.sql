@@ -19,11 +19,40 @@ SELECT * FROM #PatientAdmission
  * of 8 days with NumAdmissions set to 0 for missing dates. 
  You may wish to use the SQL statements below to set the start and end dates
  */
-
+/*
 DECLARE @StartDate DATE;
 DECLARE @EndDate DATE;
 SELECT @StartDate = DATEFROMPARTS(2024, 1, 1);
 SELECT @EndDate = DATEFROMPARTS(2024, 1, 8);
+*/
+
+/*
+DECLARE @START_DATE DATE = '2024-01-01'
+DECLARE @END_DATE DATE = '2024-01-08'
+
+SELECT DATEADD()
+
+FROM #PatientAdmission
+*/
+
+DECLARE @StartDate DATE = '2024-01-01';
+DECLARE @EndDate DATE = '2024-01-08';
+DECLARE @NUMDAYS INT = DATEDIFF(DAY, @StartDate, @EndDate) +1;
+--SELECT @StartDate = DATEFROMPARTS(2024, 1, 1);
+--SELECT @EndDate = DATEFROMPARTS(2024, 1, 8);
+--SELECT @NUMDAYS = DATEDIFF(DAY, @StartDate, @EndDate) +1;
+
+SELECT T.N
+        , DATEADD(DAY, T.N -1, @StartDate)
+        , ISNULL(NumAdmissions,0) AS ADMISSIONS
+
+FROM TALLY T
+
+LEFT JOIN #PatientAdmission PA
+    ON DATEADD(DAY, T.N -1, @StartDate) = PA.AdmittedDate
+
+WHERE T.N <= @NUMDAYS
+   -- AND NumAdmissions IS NULL
 
 -- write your answer here
 
